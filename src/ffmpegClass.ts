@@ -503,12 +503,12 @@ export class FfmpegClass {
     );
 
     this.__errorCheck();
-    this.#Process = Deno.run({
-      cmd: this.__formatting(),
+    this.#Process = new Deno.Command({
+      cmd: this.__formatting(), {
       stdin: this.#pipedInput.length > 0 ? "piped" : "null",
       stderr: "piped",
       stdout: this.#pipedOutput ? "piped" : "null",
-    });
+    }});
 
     if ((this.#pipedInput.length > 0 || this.#pipedOutput) && iterator) {
       throw new FfmpegError(
